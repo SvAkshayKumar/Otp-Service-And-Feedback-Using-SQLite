@@ -7,19 +7,24 @@ const router = Router();
 const otpController = new OtpController();
 const sendMailController = new SendMailController();
 
-/**
- * Route to generate OTP and send it via email
- */
 router.post('/otp/generate', validateEmail, async (req, res) => {
   try {
     const { email, type = 'numeric', organization = 'R V University', subject = 'One-Time Password (OTP)' } = req.body;
 
+    console.log("📩 OTP Generate Request:", { email, type, organization, subject });
+
     const otp = await otpController.generateOtp(email, type);
+    console.log("✅ OTP Generated:", otp);
+
     await sendMailController.sendMail(email, otp, organization, subject);
+    console.log("📬 Email Sent Successfully");
 
     res.status(200).json({ message: 'OTP is generated and sent to your email' });
   } catch (error) {
-    console.error('🔥 Internal Error:', error);
+    console.error('🔥 OTP GENERATE ERROR:', {
+      message: (error as Error).message,
+      stack: (error as Error).stack,
+    });
     res.status(500).json({ error: 'Internal server error' });
   }
 });
