@@ -5,7 +5,7 @@ This is a Node.js + Express service that provides:
 - General-purpose feedback submission via email.
 - Thank-you/response email service with styled templates.
 
-## 🌐 Tech Stack
+## 🌐 Tech Stack 
 
 - Node.js
 - Express.js
